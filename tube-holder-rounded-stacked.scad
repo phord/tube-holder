@@ -74,7 +74,7 @@ module tubeCatchers() {
         translate(v=[x,y,0]) 
               cylinder(r=catcherDiameter/2,h=catcherHeight,$fn=30);
         translate(v=[x,y,catcherHeight]) 
-              cylinder(r2=catcherDiameter/1.5,r1=0,h=catcherHeight*2,center=true,$fn=30);
+              cylinder(r2=catcherDiameter,r1=0,h=catcherHeight*2,center=true,$fn=30);
         translate(v=[x,y,0]) 
               cylinder(r=catcherDiameter/4,h=catcherHeight,$fn=30);
         }
