@@ -13,13 +13,17 @@ tubeHeight = 38;
 
 // Catchers
 catcherDiameter=upperHoleDiameter;
-catcherHeight=15;
+catcherHeight=14;
+drainRadius=catcherDiameter/5;
 
 // Bridges between tubes
 connectors=2;
 
 // Number of tubes across X down
 N=3;
+
+// Resolution
+tubeFacets=30;
 
 //_______________________________________________
 //                                     CALCULATED
@@ -35,11 +39,11 @@ module tubeCatchers() {
         y=Y*spacing;
         difference() {
         translate(v=[x,y,0]) 
-              cylinder(r=catcherDiameter/2,h=catcherHeight,$fn=30);
+              cylinder(r=catcherDiameter/2,h=catcherHeight,$fn=tubeFacets);
         translate(v=[x,y,catcherHeight]) 
-              cylinder(r2=catcherDiameter,r1=0,h=catcherHeight*2,center=true,$fn=30);
+              cylinder(r2=catcherDiameter,r1=0,h=catcherHeight*2,center=true,$fn=tubeFacets);
         translate(v=[x,y,-1]) 
-              cylinder(r=catcherDiameter/4,h=catcherHeight+floor_depth+2,$fn=30);
+              cylinder(r=drainRadius,h=catcherHeight+floor_depth+2,$fn=tubeFacets);
         }
 	  }
     }
@@ -53,7 +57,7 @@ module tubeDrains() {
         x=X*spacing;
         y=Y*spacing;
         translate(v=[x,y,-1]) 
-              cylinder(r=catcherDiameter/4,h=catcherHeight+floor_depth+2,$fn=30);
+              cylinder(r=drainRadius,h=catcherHeight+floor_depth+2,$fn=tubeFacets);
 	  }
     }
   }
@@ -66,7 +70,7 @@ module tubeplatform(){
         x=X*spacing;
         y=Y*spacing;
         translate(v=[x,y,0]) 
-            cylinder(r=(spacing+spacing-upperHoleDiameter)/2,h=floor_depth);
+            cylinder(r=(spacing+spacing-upperHoleDiameter)/2,h=floor_depth,$fn=tubeFacets);
       }
     }
   }
@@ -83,11 +87,11 @@ module tubeBridges(){
             translate(v=[0,y,z]) 
               scale([1,2,1])
                 rotate([0,90,0])
-                    cylinder(r=w/2, h=l,$fn=30);
+                    cylinder(r=w/2, h=l,$fn=tubeFacets/2);
             translate(v=[y,0,z]) 
-                  rotate([-90,0,0])
-              scale([2,1,1])
-                    cylinder(r=w/2, h=l,$fn=30);
+                  rotate([-90,90,0])
+              scale([1,2,1])
+                    cylinder(r=w/2, h=l,$fn=tubeFacets/2);
           }
       } 
     }
@@ -103,7 +107,7 @@ module tubeWalls(){
         y=Y*spacing;
 		translate(v=[x,y,floor_depth-0.1]) 
 //			cylinder(r=upperHoleDiameter/2+1,h=block_height);
-			cylinder(r=outerHoleDiameter/2,h=totalHeight - floor_depth,$fn=60);
+			cylinder(r=outerHoleDiameter/2,h=totalHeight - floor_depth,$fn=tubeFacets);
 	  }
     }
   }
@@ -116,7 +120,7 @@ module tubeholes(){
         x=X*spacing;
         y=Y*spacing;
 		translate(v=[x,y,floor_depth-0.1]) 
-          cylinder(r=upperHoleDiameter/2,h=tubeHeight+catcherHeight+1,$fn=60);
+          cylinder(r=upperHoleDiameter/2,h=tubeHeight+catcherHeight+1,$fn=tubeFacets);
 	  }
     }
   }
@@ -144,7 +148,5 @@ module top(){
 }
 
 
-difference() {
-   top();
-//   fencing();
-}
+top();
+//tubeplatform();
