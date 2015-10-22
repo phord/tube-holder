@@ -2,7 +2,7 @@
 //                                         CONFIG
 // Platform
 wall_width=1;
-floor_depth=4;
+floor_depth=2;
 
 // Tube holes
 upperHoleDiameter=19.5;
@@ -13,7 +13,7 @@ tubeHeight = 38;
 
 // Catchers
 catcherDiameter=upperHoleDiameter;
-catcherHeight=7;
+catcherHeight=15;
 
 // Bridges between tubes
 connectors=2;
