@@ -13,8 +13,9 @@ tubeHeight = 38;
 
 // Catchers
 catcherDiameter=upperHoleDiameter;
-catcherHeight=14;
-drainRadius=catcherDiameter/5;
+catcherHeight=5;
+catcherHeight2=catcherHeight;
+drainRadius=catcherDiameter/6;
 
 // Bridges between tubes
 connectors=2;
@@ -23,7 +24,7 @@ connectors=2;
 N=3;
 
 // Resolution
-tubeFacets=30;
+tubeFacets=60;
 
 //_______________________________________________
 //                                     CALCULATED
@@ -41,7 +42,7 @@ module tubeCatchers() {
         translate(v=[x,y,0]) 
               cylinder(r=catcherDiameter/2,h=catcherHeight,$fn=tubeFacets);
         translate(v=[x,y,catcherHeight]) 
-              cylinder(r2=catcherDiameter,r1=0,h=catcherHeight*2,center=true,$fn=tubeFacets);
+              cylinder(r2=catcherDiameter,r1=0,h=catcherHeight2,center=true,$fn=tubeFacets);
         translate(v=[x,y,-1]) 
               cylinder(r=drainRadius,h=catcherHeight+floor_depth+2,$fn=tubeFacets);
         }
@@ -80,7 +81,8 @@ module tubeBridges(){
   difference() {
       union() {
         l=n*outerHoleDiameter;
-        for (z = [tubeHeight/connectors:tubeHeight/connectors:tubeHeight]) {  
+        for (Z = [1:connectors]) {
+          z = Z*tubeHeight/connectors;
           for (Y = [0:n]) {
             y=Y*spacing;
             w=outerHoleDiameter/4;
@@ -126,6 +128,11 @@ module tubeholes(){
   }
 }
 
+module xray(){
+    translate(v=[-spacing/2,spacing*n/2,tubeHeight/2]) 
+      cube([spacing,(n+1)*spacing, tubeHeight*2],center=true);
+}
+
 module top_middle(depth){
   difference(){
 	 union() {
@@ -147,6 +154,7 @@ module top(){
 	top_middle(floor_depth);
 }
 
-
-top();
-//tubeplatform();
+difference() {
+    top();
+    //xray();
+}
